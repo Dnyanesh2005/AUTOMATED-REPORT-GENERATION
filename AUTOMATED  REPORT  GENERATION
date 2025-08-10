@@ -1,0 +1,49 @@
+from google.colab import files
+uploaded = files.upload()  
+
+!pip install pandas matplotlib fpdf
+
+ import pandas as pd
+import matplotlib.pyplot as plt
+from fpdf import FPDF
+from google.colab import files
+
+
+df = pd.read_csv("sales_data.csv")
+
+
+summary = df.describe()
+
+
+plt.figure(figsize=(8, 5))
+df['Revenue'].plot(kind='bar', title='Revenue by Entry', color='skyblue')
+plt.xlabel('Entry Index')
+plt.ylabel('Revenue')
+plt.tight_layout()
+plt.savefig("revenue_plot.png")
+plt.close()
+
+pdf = FPDF()
+pdf.add_page()
+pdf.set_font("Arial", size=14)
+pdf.cell(200, 10, txt="Automated Sales Report", ln=True, align='C')
+
+pdf.set_font("Arial", size=12)
+pdf.ln(10)
+pdf.cell(200, 10, txt="Summary Statistics:", ln=True)
+
+
+for col in summary.columns:
+    mean_val = summary.loc["mean", col]
+    std_val = summary.loc["std", col]
+    pdf.cell(200, 10, txt=f"{col}: Mean={mean_val:.2f}, Std={std_val:.2f}", ln=True)
+
+
+pdf.ln(5)
+pdf.image("revenue_plot.png", x=10, y=None, w=180)
+
+
+pdf.output("sales_report.pdf")
+
+
+files.download("sales_report.pdf")              
