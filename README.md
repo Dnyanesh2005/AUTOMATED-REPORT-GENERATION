@@ -21,6 +21,8 @@ In this Automated Report Generation task, I developed the skills to transform ra
 
 *output*
 
+![Image](https://github.com/user-attachments/assets/f36f904e-1fe3-41a9-bdb1-1dc4162725ed)
+
 
 
 
